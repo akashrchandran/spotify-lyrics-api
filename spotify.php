@@ -57,6 +57,7 @@ class Spotify
 			"App-platform: WebPlayer",
 			"authorization: Bearer $token"
 		));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_URL, $formated_url);
 		$result = curl_exec($ch);
 		return $result;
