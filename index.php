@@ -4,13 +4,20 @@ error_reporting(0);
 header("Content-Type: application/json");
 
 $trackid = $_GET['trackid'];
+$url = $_GET['url'];
 $typed = $_GET['format'];
 
-if (! $trackid) {
+$re = '~[\bhttps://open.\b]*spotify[\b.com\b]*[/:]*track[/:]*([A-Za-z0-9]+)~';
+
+if (! $trackid && ! $url) {
 	http_response_code(400);
-	$reponse = json_encode(["error" => true, "message" => "trackid parameter is required!"]);
+	$reponse = json_encode(["error" => true, "message" => "url or trackid parameter is required!"]);
 	echo $reponse;
 	return;
+}
+if ($url) {
+	preg_match($re, $url, $matches, PREG_OFFSET_CAPTURE, 0);
+	$trackid = $matches[1][0];
 }
 $spotify = new Spotify();
 $spotify -> check_if_expire();
@@ -40,7 +47,7 @@ function formatMS($milliseconds) {
     $centi = $milliseconds % 1000;
     $seconds = $seconds % 60;
     $minutes = $minutes % 60;
-    $format = '%02u:%02u.%02u';
+    $format = '%02u:%02u.%03u';
     $time = sprintf($format, $minutes, $seconds, $centi);
     return rtrim($time, '0');
 }
