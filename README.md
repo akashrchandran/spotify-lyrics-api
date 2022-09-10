@@ -17,13 +17,13 @@ Spotify Lyrics API
 
 <div align="center">
 
-[![shield made-with-php](https://img.shields.io/badge/PHP->=8.1-white?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
+[![shield made-with-php](https://img.shields.io/badge/PHP->=%208.1-white?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
  
 </div>
  
  <div align="center">
 
-A Rest API for fetching lyrics from Spotify which is powered by Musixmatch. Commandline version is available [@syrics](https://github.com/akashrchandran/syrics).
+A Rest API for fetching lyrics from Spotify which is powered by Musixmatch. Commandline version is available [akashrchandran/syrics](https://github.com/akashrchandran/syrics).
  
 </div>
  
