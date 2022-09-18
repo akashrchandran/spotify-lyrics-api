@@ -42,6 +42,9 @@ function make_reponse($response, $format)
 }
 
 function formatMS($milliseconds) {
+	if ($milliseconds == 0) {
+		return '00:00.00';
+	}
 	$seconds = floor($milliseconds / 1000);
     $minutes = floor($seconds / 60);
     $centi = $milliseconds % 1000;
