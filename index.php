@@ -11,7 +11,7 @@ $re = '~[\bhttps://open.\b]*spotify[\b.com\b]*[/:]*track[/:]*([A-Za-z0-9]+)~';
 
 if (! $trackid && ! $url) {
 	http_response_code(400);
-	$reponse = json_encode(["error" => true, "message" => "url or trackid parameter is required!"]);
+	$reponse = json_encode(["error" => true, "message" => "url or trackid parameter is required!", "usage" => "https://github.com/akashrchandran/spotify-lyrics-api"]);
 	echo $reponse;
 	return;
 }
@@ -27,6 +27,10 @@ echo make_reponse($reponse, $typed);
 function make_reponse($response, $format)
 {	
 	$temp = json_decode($response, true)['lyrics'];
+	if (! $temp) {
+		http_response_code(404);
+		return json_encode(["error" => true, "message" => "lyrics for this track is not available on spotify!"]);
+	}
 	if ($format == 'lrc') {
 		$lines = array();
 		foreach ($temp['lines'] as $lists) {
