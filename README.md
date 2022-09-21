@@ -101,13 +101,23 @@ response:
 ```
 ### Error Messages
 
-__When trackid and url both are not given__
+__When trackid and url both are not given__ (400 Bad Request)
 
-response:
+error response:
 ```json
 {
     "error": true,
     "message": "url or trackid parameter is required!"
+}
+```
+
+__When no lyrics found on spotify for given track__ (400 Not Found)
+
+error response:
+```json
+{
+    "error": true,
+    "message": "lyrics for this track is not available on spotify!"
 }
 ```
 ## Credits
