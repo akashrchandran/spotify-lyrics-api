@@ -120,6 +120,41 @@ error response:
     "message": "lyrics for this track is not available on spotify!"
 }
 ```
+
+## Deployment
+
+> Want to host your own version of this API, But first you need SP_DC cookie from spotify
+
+__Find SP_DC__
+
+You will find the detailed guide [here](https://github.com/akashrchandran/syrics/wiki/Finding-sp_dc).
+
+__Heroku__
+
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/akashrchandran/spotify-lyrics-api)
+
+__Run locally__
+
+> use git to clone the repo to your local machine or you can download the latest [zip](https://github.com/akashrchandran/spotify-lyrics-api/archive/refs/heads/main.zip) file and extract it.
+
+*You need to have PHP installed on you machine to run this program.*
+
+__Enter into the folder via terminal__
+```sh
+cd spotify-lyrics-api
+```
+__Set SP_DC token as environment variable temprorily__
+
+```sh
+export SP_DC=[token here and remove the square brackets]
+```
+
+__Start the server__
+```
+php -S localhost:8000
+```
+now open your browser and type `localhost:8080` and you should see the program running.
 ## Credits
 
 • [Me](https://akashrchandran.in)
