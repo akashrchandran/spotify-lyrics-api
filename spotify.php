@@ -29,7 +29,7 @@ class Spotify
 		$re = '~<script id="session" data-testid="session" type="application/json">(\S+)</script>~m';
 		preg_match_all($re, $result, $matches, PREG_SET_ORDER, 0);
 		$token_json = $matches[0][1];
-		if (! $token_json["isAnonymous"])
+		if (! $token_json)
 			throw new Exception("The SP_DC set seems to be invalid, please correct it!");
 		$token_file = fopen("config.json", "w") or die("Unable to open file!");;
 		fwrite($token_file, $token_json);
