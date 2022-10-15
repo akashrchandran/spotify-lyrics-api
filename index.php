@@ -1,7 +1,7 @@
 <?php
 require 'spotify.php';
+header('Access-Control-Allow-Origin: *');
 header("Content-Type: application/json");
-
 $trackid = $_GET['trackid'];
 $url = $_GET['url'];
 $typed = $_GET['format'];
