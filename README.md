@@ -27,10 +27,14 @@ A Rest API for fetching lyrics from Spotify which is powered by Musixmatch. Comm
  
 </div>
  
-## Fetching Lyrics
+
+# Fetching Lyrics
+
+
 > For now it only supports track id or link.
 
-### Using GET Requests
+
+## Using GET Requests
 > You have to use query paramters to send data
 
 __Available Parameters:__
@@ -99,6 +103,55 @@ response:
     ]
 }
 ```
+
+### Responses
+> Different Responses given out by the API, are listed here.
+
+If any error occurs the value of the error key will be set to `true` else `false`
+```JSON
+"error": false //no error occured
+```
+Most of the lyrics are time synced or have timetags and some aren't time synced or have timetags. To differentiate between synced and unsynced we have key `syncType`.
+```JSON
+"syncType": "LINE_SYNCED"
+```
+> Musixmatch supports Line synced and Word synced type of timed lyrics. Line Synced is the timetag is given till which the line is sang and the word synced lyrics time specifed when the word comes up in the song. For now Spotify only supports line synced. Maybe they would support word synced in the future :/.
+
+__LINE Synced__
+```JSON
+{
+    "error": false,
+    "syncType": "LINE_SYNCED",
+    "lines": [
+        {
+            "timeTag": "00:00.96",
+            "words": "One, two, three, four"
+        },
+        {
+            "timeTag": "00:04.02",
+            "words": "Ooh-ooh, ooh-ooh-ooh"
+        }
+    ]
+}
+```
+__NOT Synced or Unsynced__
+> Note the `timeTags` is set to `00:00.00`.
+```JSON
+{
+    "error": false,
+    "syncType": "UNSYNCED",
+    "lines": [
+        {
+            "timeTag": "00:00.00",
+            "words": "jaane nahin denge tuje"
+        },
+        {
+            "timeTag": "00:00.00",
+            "words": "chaahe tujh ko rab bulaa le, hum naa rab se darane waale"
+        }
+    ]
+}
+```
 ### Error Messages
 
 __When trackid and url both are not given__ (400 Bad Request)
@@ -111,7 +164,7 @@ error response:
 }
 ```
 
-__When no lyrics found on spotify for given track__ (400 Not Found)
+__When no lyrics found on spotify for given track__ (404 Not Found)
 
 error response:
 ```json
@@ -121,11 +174,11 @@ error response:
 }
 ```
 
-## Deployment
+# Deployment
 
 > Want to host your own version of this API, But first you need SP_DC cookie from spotify
 
-__Find SP_DC__
+__Finding SP_DC__
 
 You will find the detailed guide [here](https://github.com/akashrchandran/syrics/wiki/Finding-sp_dc).
 
@@ -144,8 +197,8 @@ __Enter into the folder via terminal__
 ```sh
 cd spotify-lyrics-api
 ```
-__Set SP_DC token as environment variable temprorily__
 
+__Set SP_DC token as environment variable temprorily__
 ```sh
 export SP_DC=[token here and remove the square brackets]
 ```
@@ -155,7 +208,7 @@ __Start the server__
 php -S localhost:8000
 ```
 now open your browser and type `localhost:8080` and you should see the program running.
-## Credits
+# Credits
 
 • [Me](https://akashrchandran.in)
   -> For everything.
