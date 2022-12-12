@@ -26,11 +26,11 @@ class Spotify
 		));
 		curl_setopt($ch, CURLOPT_URL, $this->token_url);
 		$result = curl_exec($ch);
-		$token_json = json_decode($result, true)['accessToken'];
-		if (! $token_json)
+		$token_json = json_decode($result, true);
+		if (! $token_json || $token_json['isAnonymous'])
 			throw new Exception("The SP_DC set seems to be invalid, please correct it!");
 		$token_file = fopen("config.json", "w") or die("Unable to open file!");;
-		fwrite($token_file, $token_json);
+		fwrite($token_file, $result);
 	}
 
 	function check_if_expire()
