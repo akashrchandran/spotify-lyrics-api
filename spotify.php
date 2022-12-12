@@ -2,7 +2,7 @@
 
 class Spotify
 {
-	private $spotify_url = 'https://open.spotify.com/';
+	private $token_url = 'https://open.spotify.com/get_access_token?reason=transport&productType=web_player';
 	private $lyrics_url = 'https://spclient.wg.spotify.com/color-lyrics/v2/track/';
 	function get_token()
 	{
@@ -15,7 +15,7 @@ class Spotify
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($ch, CURLOPT_VERBOSE, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_HEADER, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -24,11 +24,9 @@ class Spotify
 			"content-type: text/html; charset=utf-8",
 			"cookie: sp_dc=$sp_dc;"
 		));
-		curl_setopt($ch, CURLOPT_URL, $this->spotify_url);
+		curl_setopt($ch, CURLOPT_URL, $this->token_url);
 		$result = curl_exec($ch);
-		$re = '~<script id="session" data-testid="session" type="application/json">(\S+)</script>~m';
-		preg_match_all($re, $result, $matches, PREG_SET_ORDER, 0);
-		$token_json = $matches[0][1];
+		$token_json = json_decode($result, true)['accessToken'];
 		if (! $token_json)
 			throw new Exception("The SP_DC set seems to be invalid, please correct it!");
 		$token_file = fopen("config.json", "w") or die("Unable to open file!");;
