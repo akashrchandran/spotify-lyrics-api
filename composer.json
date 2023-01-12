@@ -5,7 +5,7 @@
     "require": {
         "php": ">=8.0"
     },
-    "license": "GNU General Public License v3.0",
+    "license": "GPL-3.0-only",
     "autoload": {
         "psr-4": {
             "SpotifyLyricsApi\\": "src"
