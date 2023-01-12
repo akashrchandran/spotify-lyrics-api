@@ -1,5 +1,7 @@
 <?php
-require 'spotify.php';
+
+require('../vendor/autoload.php');
+
 header('Access-Control-Allow-Origin: *');
 header("Content-Type: application/json");
 $trackid = $_GET['trackid'];
@@ -18,7 +20,7 @@ if ($url) {
 	preg_match($re, $url, $matches, PREG_OFFSET_CAPTURE, 0);
 	$trackid = $matches[1][0];
 }
-$spotify = new Spotify();
+$spotify = new SpotifyLyricsApi\Spotify();
 $spotify->check_if_expire();
 $reponse = $spotify->get_lyrics(track_id: $trackid);
 echo make_reponse($reponse, $typed);
@@ -57,3 +59,5 @@ function formatMS($milliseconds)
 	$time = sprintf($format, $minutes, $seconds, $centi);
 	return rtrim($time, '0');
 }
+
+?>
