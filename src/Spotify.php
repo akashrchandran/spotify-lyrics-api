@@ -1,5 +1,7 @@
 <?php
 
+namespace SpotifyLyricsApi;
+
 class Spotify
 {
 	private $token_url = 'https://open.spotify.com/get_access_token?reason=transport&productType=web_player';
@@ -8,7 +10,7 @@ class Spotify
 	{
 		$sp_dc = getenv('SP_DC');
 		if (!$sp_dc)
-			throw new Exception("Please set SP_DC as a environmental variable.");
+			throw new SpotifyException("Please set SP_DC as a environmental variable.");
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_TIMEOUT, 600);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
@@ -16,7 +18,7 @@ class Spotify
 		curl_setopt($ch, CURLOPT_VERBOSE, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			"User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36",
@@ -28,7 +30,7 @@ class Spotify
 		$result = curl_exec($ch);
 		$token_json = json_decode($result, true);
 		if (! $token_json || $token_json['isAnonymous'])
-			throw new Exception("The SP_DC set seems to be invalid, please correct it!");
+			throw new SpotifyException("The SP_DC set seems to be invalid, please correct it!");
 		$token_file = fopen("config.json", "w") or die("Unable to open file!");;
 		fwrite($token_file, $result);
 	}
@@ -65,3 +67,5 @@ class Spotify
 		return $result;
 	}
 }
+
+?>
