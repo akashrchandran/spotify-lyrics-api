@@ -47,17 +47,8 @@ function make_reponse($response, $format)
 
 function formatMS($milliseconds)
 {
-	if ($milliseconds == 0) {
-		return '00:00.00';
-	}
-	$seconds = floor($milliseconds / 1000);
-	$minutes = floor($seconds / 60);
-	$centi = $milliseconds % 1000;
-	$seconds = $seconds % 60;
-	$minutes = $minutes % 60;
-	$format = '%02u:%02u.%03u';
-	$time = sprintf($format, $minutes, $seconds, $centi);
-	return rtrim($time, '0');
+	$lrc_timetag = sprintf('%02d:%02d.%02d', ($milliseconds / 1000) / 60, ($milliseconds / 1000) % 60, ($milliseconds % 1000) / 10);
+	return $lrc_timetag;
 }
 
 ?>
