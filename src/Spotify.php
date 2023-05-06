@@ -6,11 +6,11 @@ class Spotify
  {
     private $token_url = 'https://open.spotify.com/get_access_token?reason=transport&productType=web_player';
     private $lyrics_url = 'https://spclient.wg.spotify.com/color-lyrics/v2/track/';
+
     /**
     * Retrieves an access token from the Spotify and stores it in a file.
     * The file is stored in the working directory.
     */
-
     function getToken(): void
  {
         $sp_dc = getenv( 'SP_DC' );
@@ -41,8 +41,12 @@ class Spotify
         fwrite( $token_file, $result );
     }
 
-    function checkTokenExpire()
- {
+    /**
+    * Checks if the access token is expired and retrieves a new one if it is.
+    * The function invokes getToken if the token is expired or the cache file is not found.
+    */
+    function checkTokenExpire(): void
+    {
         $check = file_exists( '.cache' );
         if ( $check ) {
             $json = file_get_contents( '.cache' );
@@ -54,8 +58,13 @@ class Spotify
         }
     }
 
+    /**
+    * Retrieves the lyrics of a track from the Spotify.
+    * @param string $track_id The Spotify track id.
+    * @return string The lyrics of the track in JSON format.
+    */
     function getLyrics( $track_id ): string
- {
+    {
         $json = file_get_contents( '.cache' );
         $token = json_decode( $json, true )[ 'accessToken' ];
         $formated_url = $this->lyrics_url . $track_id . '?format=json&market=from_token';
@@ -73,8 +82,13 @@ class Spotify
         return $result;
     }
 
+    /*
+    * It changes the format of the lyrics from milisecond to LRC format.
+    * @param array $lyrics The lyrics of the track in JSON format.
+    * @return array The lyrics of the track in LRC format.
+    */
     function getLrcLyrics( $lyrics ): array
- {
+    {
         $lrc = array();
         foreach ( $lyrics as $lines ) {
             $lrctime = $this -> formatMS( $lines[ 'startTimeMs' ] );
@@ -83,11 +97,14 @@ class Spotify
         return $lrc;
     }
 
+    /**
+    * Helper fucntion for getLrcLyrics to change miliseconds to [mm:ss.xx]
+    * @param int $milliseconds The time in miliseconds.
+    * @return string The time in [mm:ss.xx] format.
+    */
     function formatMS( $milliseconds ): string
- {
+    {
         $lrc_timetag = sprintf( '%02d:%02d.%02d', ( $milliseconds / 1000 ) / 60, ( $milliseconds / 1000 ) % 60, ( $milliseconds % 1000 ) / 10 );
         return $lrc_timetag;
     }
 }
-
-?>
