@@ -27,6 +27,10 @@ A Rest API for fetching lyrics from Spotify which is powered by Musixmatch. Comm
  
 </div>
  
+ # Install using Composer
+```
+composer require akashrchandran/spotify-lyrics-api
+```
 
 # Fetching Lyrics
 
