@@ -4,9 +4,9 @@ require('../vendor/autoload.php');
 
 header('Access-Control-Allow-Origin: *');
 header("Content-Type: application/json");
-$trackid = $_GET['trackid'];
-$url = $_GET['url'];
-$typed = $_GET['format'];
+$trackid = $_GET['trackid'] ?? null;
+$url = $_GET['url'] ?? null;
+$format = $_GET['format'] ?? null;
 
 $re = '~[\bhttps://open.\b]*spotify[\b.com\b]*[/:]*track[/:]*([A-Za-z0-9]+)~';
 
@@ -23,7 +23,7 @@ if ($url) {
 $spotify = new SpotifyLyricsApi\Spotify();
 $spotify->checkTokenExpire();
 $reponse = $spotify -> getLyrics(track_id: $trackid);
-echo make_reponse($reponse, $typed);
+echo make_reponse($reponse, $format);
 
 function make_reponse($response, $format)
 {

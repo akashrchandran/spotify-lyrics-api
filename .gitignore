@@ -12,6 +12,6 @@
 *.vsix
 
 # custom
-config.json
+.cache
 /.vscode
 /vendor/
