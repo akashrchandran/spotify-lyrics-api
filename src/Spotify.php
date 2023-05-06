@@ -13,8 +13,7 @@ class Spotify
 
     function getToken(): void
  {
-        $sp_dc = 'AQB0khNFpwXip80j-Yme5BZpQ6z3cqMPNbvF1JcRBHKDwdO_TmjpXZQ36JWkw2jA_30LIYf7z4Igj3wXqRs9OVeWl6cEx7bk2KLwwiP3dxL5M74PGwTPBOT-w02lyazIwF9OX487EkGQFRfQxnF-6-7lZqi5_g-Q';
-        //getenv( 'SP_DC' );
+        $sp_dc = getenv( 'SP_DC' );
         if ( !$sp_dc )
         throw new SpotifyException( 'Please set SP_DC as a environmental variable.' );
         $ch = curl_init();
@@ -57,7 +56,7 @@ class Spotify
 
     function getLyrics( $track_id ): string
  {
-        $json = file_get_contents( 'config.json' );
+        $json = file_get_contents( '.cache' );
         $token = json_decode( $json, true )[ 'accessToken' ];
         $formated_url = $this->lyrics_url . $track_id . '?format=json&market=from_token';
 
