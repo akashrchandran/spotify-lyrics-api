@@ -14,3 +14,4 @@
 # custom
 config.json
 /.vscode
+/vendor/

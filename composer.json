@@ -1,0 +1,20 @@
+{
+    "name": "akashrchandran/spotify-lyrics-api",
+    "description": "A Rest API for fetching lyrics from Spotify which is powered by Musixmatch.",
+    "type": "library",
+    "require": {
+        "php": "^8.0.0"
+    },
+    "license": "GPL-3.0-only",
+    "autoload": {
+        "psr-4": {
+            "SpotifyLyricsApi\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Akash R Chandran",
+            "email": "chandranrakash@gmail.com"
+        }
+    ]
+}
