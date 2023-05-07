@@ -3,17 +3,22 @@
 namespace SpotifyLyricsApi;
 
 class Spotify
- {
+{
     private $token_url = 'https://open.spotify.com/get_access_token?reason=transport&productType=web_player';
     private $lyrics_url = 'https://spclient.wg.spotify.com/color-lyrics/v2/track/';
-
+    
+    function __construct($sp_dc)
+    {
+        $this -> sp_dc = $sp_dc;
+    }
+    
     /**
     * Retrieves an access token from the Spotify and stores it in a file.
     * The file is stored in the working directory.
     */
     function getToken(): void
- {
-        $sp_dc = getenv( 'SP_DC' );
+    {
+        $sp_dc = $this -> sp_dc;
         if ( !$sp_dc )
         throw new SpotifyException( 'Please set SP_DC as a environmental variable.' );
         $ch = curl_init();

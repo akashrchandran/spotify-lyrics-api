@@ -20,7 +20,7 @@ if ($url) {
 	preg_match($re, $url, $matches, PREG_OFFSET_CAPTURE, 0);
 	$trackid = $matches[1][0];
 }
-$spotify = new SpotifyLyricsApi\Spotify();
+$spotify = new SpotifyLyricsApi\Spotify(getenv( 'SP_DC' ));
 $spotify->checkTokenExpire();
 $reponse = $spotify -> getLyrics(track_id: $trackid);
 echo make_reponse($reponse, $format);
