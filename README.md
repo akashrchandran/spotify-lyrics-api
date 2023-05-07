@@ -31,7 +31,6 @@ A Rest API for fetching lyrics from Spotify which is powered by Musixmatch. Comm
 ```
 composer require akashrchandran/spotify-lyrics-api
 ```
-
 # Fetching Lyrics
 
 
@@ -177,6 +176,25 @@ error response:
     "message": "lyrics for this track is not available on spotify!"
 }
 ```
+
+# Using as package
+> Install using `composer require akashrchandran/spotify-lyrics-api`.
+
+Include the package's autoloader file in your PHP code and call class `Spotify()`.
+
+```PHP
+<?php
+require('./vendor/autoload.php');
+
+$spotify = new SpotifyLyricsApi\Spotify("SP_DC here");
+$spotify->checkTokenExpire();
+$reponse = $spotify -> getLyrics(track_id: "1418IuVKQPTYqt7QNJ9RXN");
+?>
+```
+
+
+![image](https://user-images.githubusercontent.com/78685510/236701387-23165a0e-1c94-474d-aea1-41d8b8464f66.png)
+
 
 # Deployment
 
