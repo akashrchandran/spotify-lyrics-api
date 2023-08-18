@@ -3,7 +3,10 @@
 require('../vendor/autoload.php');
 
 header('Access-Control-Allow-Origin: *');
-header("Content-Type: application/json");
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Content-Type: application/json');
+
 $trackid = $_GET['trackid'] ?? null;
 $url = $_GET['url'] ?? null;
 $format = $_GET['format'] ?? null;
