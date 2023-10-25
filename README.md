@@ -55,12 +55,12 @@ __Available Parameters:__
 __Using trackid__
 
 ```
-https://spotify-lyric-api.herokuapp.com/?trackid=5f8eCNwTlr0RJopE9vQ6mB
+https://spotify-lyric-api-984e7b4face0.herokuapp.com/?trackid=5f8eCNwTlr0RJopE9vQ6mB
 ```
 __Using url__
 
 ```
-https://spotify-lyric-api.herokuapp.com/?url=https://open.spotify.com/track/5f8eCNwTlr0RJopE9vQ6mB?autoplay=true
+https://spotify-lyric-api-984e7b4face0.herokuapp.com/?url=https://open.spotify.com/track/5f8eCNwTlr0RJopE9vQ6mB?autoplay=true
 ```
 response:
 
@@ -86,7 +86,7 @@ response:
 ```
 __Changing format to lrc__
 ```
-https://spotify-lyric-api.herokuapp.com/?trackid=5f8eCNwTlr0RJopE9vQ6mB&format=lrc
+https://spotify-lyric-api-984e7b4face0.herokuapp.com/?trackid=5f8eCNwTlr0RJopE9vQ6mB&format=lrc
 ```
 response:
 
