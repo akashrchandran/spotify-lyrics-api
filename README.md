@@ -26,6 +26,9 @@ Spotify Lyrics API
 A Rest API for fetching lyrics from Spotify which is powered by Musixmatch. Commandline version is available [akashrchandran/syrics](https://github.com/akashrchandran/syrics).
  
 </div>
+
+> [!WARNING]
+> This project is probably against Spotify TOS. Use at your own risks.
  
  # Install using Composer
 ```
