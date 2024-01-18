@@ -121,7 +121,7 @@ class Spotify
      */
     function formatMS($milliseconds): string
     {
-        $lrc_timetag = sprintf('%02d:%02d.%02d', ($milliseconds / 1000) / 60, ($milliseconds / 1000) % 60, ($milliseconds % 1000) / 10);
+        $lrc_timetag = sprintf('%02d:%02d.%02d', intval(($milliseconds / 1000) / 60), intval(($milliseconds / 1000) % 60), intval(($milliseconds % 1000) / 10));
         return $lrc_timetag;
     }
 }
