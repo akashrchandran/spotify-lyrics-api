@@ -11,17 +11,15 @@
  You should have received a copy of the GNU Affero General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<h1 align="center">
-Spotify Lyrics API
-</h1>
-
 <div align="center">
+ 
+![spotify-lyrics-api](https://github.com/akashrchandran/spotify-lyrics-api/assets/78685510/12000a6d-ee53-41c4-9c69-98bc2559c5ed)
 
-[![shield made-with-php](https://img.shields.io/badge/PHP->=%208.1-white?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
- 
 </div>
+
+---
  
- <div align="center">
+<div align="center">
 
 A Rest API for fetching lyrics from Spotify which is powered by Musixmatch. Commandline version is available [akashrchandran/syrics](https://github.com/akashrchandran/syrics).
  
