@@ -54,7 +54,7 @@ class Spotify
         $token_json = json_decode($result, true);
         if (!$token_json || $token_json['isAnonymous'])
             throw new SpotifyException('The SP_DC set seems to be invalid, please correct it!');
-        $token_file = fopen('.cache', 'w') or die('Unable to open file!');;
+        $token_file = fopen($this -> cache_file, 'w') or die('Unable to open file!');;
         fwrite($token_file, $result);
     }
 
@@ -82,7 +82,7 @@ class Spotify
      */
     function getLyrics($track_id): string
     {
-        $json = file_get_contents($this->cache_file);
+        $json = file_get_contents($this -> cache_file);
         $token = json_decode($json, true)['accessToken'];
         $formated_url = $this->lyrics_url . $track_id . '?format=json&market=from_token';
 
