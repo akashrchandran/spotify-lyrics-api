@@ -120,8 +120,9 @@ class Spotify
      * @return string The time in [mm:ss.xx] format.
      */
     function formatMS($milliseconds): string
-    {
-        $lrc_timetag = sprintf('%02d:%02d.%02d', intval(($milliseconds / 1000) / 60), intval(($milliseconds / 1000) % 60), intval(($milliseconds % 1000) / 10));
+    {   
+        $th_secs = intdiv($milliseconds, 1000);
+        $lrc_timetag = sprintf('%02d:%02d.%02d', intdiv($th_secs , 60), $th_secs % 60, intdiv(($milliseconds % 1000), 10));
         return $lrc_timetag;
     }
 }
