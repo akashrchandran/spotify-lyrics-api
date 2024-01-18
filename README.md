@@ -30,6 +30,8 @@ A Rest API for fetching lyrics from Spotify which is powered by Musixmatch. Comm
 > [!WARNING]
 > This project is probably against Spotify TOS. Use at your own risks.
  
+> [!NOTE]
+> Changed this project into a template repository, deploy your own version. If you need help, don't hesitate to open an issue.
  # Install using Composer
 ```
 composer require akashrchandran/spotify-lyrics-api
@@ -58,12 +60,12 @@ __Available Parameters:__
 __Using trackid__
 
 ```
-https://spotify-lyric-api-984e7b4face0.herokuapp.com/?trackid=5f8eCNwTlr0RJopE9vQ6mB
+http://localhost:8080/?trackid=5f8eCNwTlr0RJopE9vQ6mB
 ```
 __Using url__
 
 ```
-https://spotify-lyric-api-984e7b4face0.herokuapp.com/?url=https://open.spotify.com/track/5f8eCNwTlr0RJopE9vQ6mB?autoplay=true
+http://localhost:8080/?url=https://open.spotify.com/track/5f8eCNwTlr0RJopE9vQ6mB?autoplay=true
 ```
 response:
 
@@ -89,7 +91,7 @@ response:
 ```
 __Changing format to lrc__
 ```
-https://spotify-lyric-api-984e7b4face0.herokuapp.com/?trackid=5f8eCNwTlr0RJopE9vQ6mB&format=lrc
+http://localhost:8080/?trackid=5f8eCNwTlr0RJopE9vQ6mB&format=lrc
 ```
 response:
 
