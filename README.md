@@ -214,6 +214,11 @@ __Heroku__
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/akashrchandran/spotify-lyrics-api)
 
+__Vercel__
+
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/project?template=https://github.com/akashrchandran/spotify-lyrics-api)
+
 __Run locally__
 
 > use git to clone the repo to your local machine or you can download the latest [zip](https://github.com/akashrchandran/spotify-lyrics-api/archive/refs/heads/main.zip) file and extract it.
@@ -232,7 +237,7 @@ export SP_DC=[token here and remove the square brackets]
 
 __Start the server__
 ```
-php -S localhost:8000
+php -S localhost:8000 api/index.php
 ```
 now open your browser and type `localhost:8080` and you should see the program running.
 # Credits
