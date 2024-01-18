@@ -16,11 +16,5 @@
             "description": "SP_DC cookie token from spotify"
         }
     },
-    "formation": {
-        "web": {
-            "quantity": 1,
-            "size": "free"
-        }
-    },
     "image": "heroku/php"
 }
