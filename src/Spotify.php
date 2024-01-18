@@ -6,6 +6,7 @@ class Spotify
 {
     private $token_url = 'https://open.spotify.com/get_access_token?reason=transport&productType=web_player';
     private $lyrics_url = 'https://spclient.wg.spotify.com/color-lyrics/v2/track/';
+    private $sp_dc;
     
     function __construct($sp_dc)
     {
