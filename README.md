@@ -214,8 +214,8 @@ __Heroku__
 
 __Vercel__
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fakashrchandran%2Fspotify-lyrics-api%2Ftree%2Fmain&env=SP_DC&envDescription=Want%20to%20host%20your%20own%20version%20of%20this%20API%2C%20then%20you'll%20first%20need%20SP_DC%20cookie%20from%20spotify.&envLink=https%3A%2F%2Fgithub.com%2Fakashrchandran%2Fsyrics%2Fwiki%2FFinding-sp_dc&project-name=spotify-lyrics-api&repository-name=spotify-lyrics-api&redirect-url=https%3A%2F%2Fgithub.com%2Fakashrchandran%2Fspotify-lyrics-api%23examples)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/project?template=https://github.com/akashrchandran/spotify-lyrics-api)
 
 __Run locally__
 
