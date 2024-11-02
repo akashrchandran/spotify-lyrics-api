@@ -7,6 +7,7 @@ namespace SpotifyLyricsApi;
  *
  * This class is responsible for interacting with the Spotify API.
  */
+
 class Spotify
 {
     private $token_url = 'https://open.spotify.com/get_access_token?reason=transport&productType=web_player';
@@ -17,8 +18,9 @@ class Spotify
     /**
      * Spotify constructor.
      *
-     * @param string $sp_dc The Spotify Data Controller (sp_dc) cookie value.
+     * @param string $sp_dc The Spotify Data Controller ( sp_dc ) cookie value.
      */
+
     function __construct($sp_dc)
     {
         $this->cache_file = sys_get_temp_dir() . '/spotify_token.json';
@@ -29,6 +31,7 @@ class Spotify
      * Retrieves an access token from the Spotify and stores it in a file.
      * The file is stored in the working directory.
      */
+
     function getToken(): void
     {
         $sp_dc = $this->sp_dc;
@@ -54,7 +57,7 @@ class Spotify
         $token_json = json_decode($result, true);
         if (!$token_json || $token_json['isAnonymous'])
             throw new SpotifyException('The SP_DC set seems to be invalid, please correct it!');
-        $token_file = fopen($this -> cache_file, 'w') or die('Unable to open file!');;
+        $token_file = fopen($this->cache_file, 'w') or die('Unable to open file!');;
         fwrite($token_file, $result);
     }
 
@@ -62,6 +65,7 @@ class Spotify
      * Checks if the access token is expired and retrieves a new one if it is.
      * The function invokes getToken if the token is expired or the cache file is not found.
      */
+
     function checkTokenExpire(): void
     {
         $check = file_exists($this->cache_file);
@@ -80,9 +84,10 @@ class Spotify
      * @param string $track_id The Spotify track id.
      * @return string The lyrics of the track in JSON format.
      */
+
     function getLyrics($track_id): string
     {
-        $json = file_get_contents($this -> cache_file);
+        $json = file_get_contents($this->cache_file);
         $token = json_decode($json, true)['accessToken'];
         $formated_url = $this->lyrics_url . $track_id . '?format=json&market=from_token';
 
@@ -104,6 +109,7 @@ class Spotify
     * @param array $lyrics The lyrics of the track in JSON format.
     * @return array The lyrics of the track in LRC format.
     */
+
     function getLrcLyrics($lyrics): array
     {
         $lrc = array();
@@ -114,15 +120,43 @@ class Spotify
         return $lrc;
     }
 
+    function getSrtLyrics($lyrics): array
+    {
+        $srt = array();
+        for ($i = 1; $i < count($lyrics); $i++) {
+            $srttime = $this->formatSRT($lyrics[$i-1]['startTimeMs']);
+            $srtendtime = $this->formatSRT($lyrics[$i]['startTimeMs']);
+            array_push($srt, ['index' => $i, 'startTime' => $srttime, 'endTime' => $srtendtime, 'words' => $lyrics[$i-1]['words']]);
+        }
+        return $srt;
+    }
+
     /**
-     * Helper fucntion for getLrcLyrics to change miliseconds to [mm:ss.xx]
+     * Helper fucntion for getLrcLyrics to change miliseconds to [ mm:ss.xx ]
      * @param int $milliseconds The time in miliseconds.
-     * @return string The time in [mm:ss.xx] format.
+     * @return string The time in [ mm:ss.xx ] format.
      */
+
     function formatMS($milliseconds): string
-    {   
+    {
+
         $th_secs = intdiv($milliseconds, 1000);
-        $lrc_timetag = sprintf('%02d:%02d.%02d', intdiv($th_secs , 60), $th_secs % 60, intdiv(($milliseconds % 1000), 10));
+        $lrc_timetag = sprintf('%02d:%02d.%02d', intdiv($th_secs, 60), $th_secs % 60, intdiv(($milliseconds % 1000), 10));
         return $lrc_timetag;
+    }
+
+    /**
+     * Helper function to format milliseconds to SRT time format ( hh:mm:ss, ms ).
+     * @param int $milliseconds The time in milliseconds.
+     * @return string The time in SRT format.
+     */
+
+    function formatSRT($milliseconds): string
+    {
+        $hours = intdiv($milliseconds, 3600000);
+        $minutes = intdiv($milliseconds % 3600000, 60000);
+        $seconds = intdiv($milliseconds % 60000, 1000);
+        $milliseconds = $milliseconds % 1000;
+        return sprintf('%02d:%02d:%02d,%03d', $hours, $minutes, $seconds, $milliseconds);
     }
 }
