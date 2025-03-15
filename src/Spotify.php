@@ -10,7 +10,7 @@ namespace SpotifyLyricsApi;
 
 class Spotify
 {
-    private $token_url = 'https://open.spotify.com/get_access_token?reason=transport&productType=web_player';
+    private $token_url = 'https://open.spotify.com/get_access_token?reason=init&productType=web-player';
     private $lyrics_url = 'https://spclient.wg.spotify.com/color-lyrics/v2/track/';
     private $sp_dc;
     private $cache_file;
@@ -57,7 +57,7 @@ class Spotify
         $token_json = json_decode($result, true);
         if (!$token_json || $token_json['isAnonymous'])
             throw new SpotifyException('The SP_DC set seems to be invalid, please correct it!');
-        $token_file = fopen($this->cache_file, 'w') or die('Unable to open file!');;
+        $token_file = fopen($this->cache_file, 'w') or die('Unable to open file!');
         fwrite($token_file, $result);
     }
 
