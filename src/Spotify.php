@@ -277,8 +277,8 @@ class Spotify {
 
             $headers = [
                 'accept: application/json',
-                'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36',
-                'App-platform: WebPlayer'
+                'content-type: application/json',
+                'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36'
             ];
 
             $ch = curl_init();
@@ -303,7 +303,7 @@ class Spotify {
             $client_token = $response[ 'granted_token' ][ 'token' ];
 
             $cache_data[ 'clientToken' ] = $client_token;
-            $cache_data[ 'clientTokenExpirationTimestampMs' ] = round( microtime( true ) * 1000 ) + ( $response[ 'granted_token' ][ 'refresh_after_seconds' ] * 1000 );
+            $cache_data[ 'clientTokenExpirationTimestampMs' ] = round( microtime( true ) * 1000 ) + ( ( $response[ 'granted_token' ][ 'refresh_after_seconds' ] ) * 1000 );
 
             $this->saveCacheFile( $cache_data );
         } catch ( Exception $e ) {
