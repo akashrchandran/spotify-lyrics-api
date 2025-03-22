@@ -24,7 +24,7 @@ if ($url) {
     $trackid = $matches[1][0];
 }
 $spotify = new SpotifyLyricsApi\Spotify(getenv('SP_DC'));
-$spotify->checkTokenExpire();
+$spotify->checkTokensExpire();
 $reponse = $spotify->getLyrics(track_id: $trackid);
 echo make_response($spotify, $reponse, $format);
 
