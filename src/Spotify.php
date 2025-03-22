@@ -131,13 +131,13 @@ class Spotify {
 
             $totp = $this->generate_totp( $server_time_seconds );
 
-            $timestamp = time();
+            $timestamp = strval( time() );
             $params = [
                 'reason' => 'transport',
                 'productType' => 'web_player',
                 'totp' => $totp,
                 'totpVer' => '5',
-                'ts' => strval( $timestamp ),
+                'ts' => $timestamp,
             ];
 
             return $params;
@@ -277,7 +277,6 @@ class Spotify {
 
             $headers = [
                 'accept: application/json',
-                'Content-Type: application/json',
                 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36',
                 'App-platform: WebPlayer'
             ];
@@ -304,7 +303,7 @@ class Spotify {
             $client_token = $response[ 'granted_token' ][ 'token' ];
 
             $cache_data[ 'clientToken' ] = $client_token;
-            $cache_data[ 'clientTokenExpirationTimestampMs' ] = round( microtime( true ) * 1000 ) + ( $response[ 'refresh_after_seconds' ] * 1000 );
+            $cache_data[ 'clientTokenExpirationTimestampMs' ] = round( microtime( true ) * 1000 ) + ( $response[ 'granted_token' ][ 'refresh_after_seconds' ] * 1000 );
 
             $this->saveCacheFile( $cache_data );
         } catch ( Exception $e ) {
