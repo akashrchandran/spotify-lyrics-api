@@ -102,7 +102,7 @@ class Spotify
             $timestamp = time();
             $params = [
                 'reason' => 'transport',
-                'productType' => 'web_player',
+                'productType' => 'web-player',
                 'totp' => $totp,
                 'totpVer' => '5',
                 'ts' => strval( $timestamp ),
