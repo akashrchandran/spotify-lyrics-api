@@ -3,9 +3,7 @@
     "description": "A Rest API for fetching lyrics from Spotify which is powered by Musixmatch.",
     "type": "library",
     "require": {
-        "php": "^8.0.0",
-        "spomky-labs/otphp": "^11.3",
-        "paragonie/constant_time_encoding": "^3.0"
+        "php": "^8.0.0"
     },
     "license": "GPL-3.0-only",
     "autoload": {
