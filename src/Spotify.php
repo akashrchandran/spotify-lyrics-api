@@ -33,45 +33,32 @@ class Spotify
     }
 
     /**
-    * Cleans a hexadecimal string by removing invalid characters and ensuring even length.
-    *
-    * @param string $hex_str The hexadecimal string to be cleaned.
-    * @return string The cleaned hexadecimal string.
-    */
-    function clean_hex( $hex_str ) {
-        $valid_chars = '0123456789abcdefABCDEF';
-        $cleaned = preg_replace( "/[^$valid_chars]/", '', $hex_str );
-        if ( strlen( $cleaned ) % 2 != 0 ) {
-            $cleaned = substr( $cleaned, 0, -1 );
-        }
-        return $cleaned;
-    }
-
-    /**
-    * Generates a Time-based One-Time Password ( TOTP ) using the server time.
+    * Generates a Time-based One-Time Password (TOTP) using the server time.
     *
     * @param int $server_time_seconds The server time in seconds.
     * @return string The generated TOTP code.
     */
     function generate_totp( $server_time_seconds ) {
-        $secret_cipher = array( 12, 56, 76, 33, 88, 44, 88, 33, 78, 78, 11, 66, 22, 22, 55, 69, 54 );
-        $processed = array();
-        foreach ( $secret_cipher as $i => $byte ) {
-            $processed[] = $byte ^ ( $i % 33 + 9 );
-        }
-        $processed_str = implode( '', $processed );
-        $utf8_bytes = mb_convert_encoding( $processed_str, 'UTF-8', 'ASCII' );
-        $hex_str = bin2hex( $utf8_bytes );
-        $cleaned_hex = $this -> clean_hex( $hex_str );
-        $secret_bytes = hex2bin( $cleaned_hex );
-        $secret_base32 = str_replace( '=', '', Encoding::base32EncodeUpper( $secret_bytes ) );
-        $totp = TOTP::create(
-            $secret_base32,
-            30,
-            'sha1',
-            6
+        $secret = "449443649084886328893534571041315";
+        $version = 8;
+        $period = 30;
+        $digits = 6;
+        
+        $counter = floor($server_time_seconds / $period);
+        $counter_bytes = pack('J', $counter); // 'J' packs as big-endian 64-bit unsigned integer
+        
+        $hmac_result = hash_hmac('sha1', $counter_bytes, $secret, true);
+        
+        $offset = ord($hmac_result[-1]) & 0x0F;
+        $binary = (
+            (ord($hmac_result[$offset]) & 0x7F) << 24
+            | (ord($hmac_result[$offset + 1]) & 0xFF) << 16
+            | (ord($hmac_result[$offset + 2]) & 0xFF) << 8
+            | (ord($hmac_result[$offset + 3]) & 0xFF)
         );
-        return $totp->at( intval( $server_time_seconds ) );
+        
+        $code = $binary % pow(10, $digits);
+        return str_pad($code, $digits, '0', STR_PAD_LEFT);
     }
 
     /**
