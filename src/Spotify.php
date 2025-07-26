@@ -37,8 +37,8 @@ class Spotify
     * @return string The generated TOTP code.
     */
     function generate_totp( $server_time_seconds ) {
-        $secret = "449443649084886328893534571041315";
-        $version = 8;
+        $secret = "46765510475331268151846763111112875241781186186871271119692";
+        $version = 17;
         $period = 30;
         $digits = 6;
         
