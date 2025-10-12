@@ -17,7 +17,7 @@ class Spotify
     private $token_url = 'https://open.spotify.com/api/token';
     private $lyrics_url = 'https://spclient.wg.spotify.com/color-lyrics/v2/track/';
     private $server_time_url = 'https://open.spotify.com/api/server-time';
-    private $secret_key_url = 'https://raw.githubusercontent.com/Thereallo1026/spotify-secrets/refs/heads/main/secrets/secrets.json';
+    private $secret_key_url = 'https://github.com/xyloflake/spot-secrets-go/blob/main/secrets/secretDict.json?raw=true';
     private $sp_dc;
     private $cache_file;
 
@@ -34,18 +34,15 @@ class Spotify
 
     function _get_latest_secret_key_version(): array
     {
-        $response = end(json_decode(file_get_contents($this->secret_key_url), true));
-        $original_secret = $response["secret"];
-        $version = $response["version"];
-
-        if (!is_string($original_secret)) {
-            throw new SpotifyException('The original secret must be a string.');
-        }
-        $ascii_codes = array_map('ord', str_split($original_secret));
+        $secrets_data = json_decode(file_get_contents($this->secret_key_url), true);
+        $version = array_key_last($secrets_data);
+        $original_secret = $secrets_data[$version];
         $transformed = [];
-
-        foreach ($ascii_codes as $i => $val) {
-            $transformed[] = $val ^ (($i % 33) + 9);
+        if (!is_array($original_secret)) {
+            throw new SpotifyException('The original secret must be an array of integers.');
+        }
+        foreach ($original_secret as $i => $char) {
+            $transformed[] = $char ^ (($i % 33) + 9);
         }
         return [implode('', $transformed), $version];
     }
