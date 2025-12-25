@@ -49,9 +49,9 @@ __Available Parameters:__
 | -------------- | ----------------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `trackid `       | None                                             | String           | The trackid from spotify.                                                                                            |
 | `url`       | None                                              | String           | The url of the track from spotify.                                                                                            |
-| `format`        | `"id3"`                                                  | String           | The format of lyrics required. It has 2 options either `id3` or `lrc`. |
+| `format`        | `"id3"`                                                  | String           | The format of lyrics required. Options: `id3`, `lrc`, `srt`, `raw`. |
 
-> You must specify either __trackid__ or __url__, otherwise it will retuen error.
+> You must specify either __trackid__ or __url__, otherwise it will return error.
 
 ### Examples
 
@@ -235,7 +235,7 @@ export SP_DC=[token here and remove the square brackets]
 
 __Start the server__
 ```
-php -S localhost:8000 api/index.php
+php -S localhost:8080 api/index.php
 ```
 now open your browser and type `localhost:8080` and you should see the program running.
 # Credits

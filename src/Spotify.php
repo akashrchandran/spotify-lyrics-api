@@ -241,6 +241,21 @@ class Spotify
     }
 
     /**
+     * Retrieves the lyrics in plain text format.
+     *
+     * @param array $lyrics The lyrics data.
+     * @return string The lyrics in plain text.
+     */
+    function getRawLyrics($lyrics): string
+    {
+        $raw = "";
+        foreach ($lyrics as $lines) {
+            $raw .= $lines['words'] . "\n";
+        }
+        return $raw;
+    }
+
+    /**
      * Helper fucntion for getLrcLyrics to change miliseconds to [ mm:ss.xx ]
      * @param int $milliseconds The time in miliseconds.
      * @return string The time in [ mm:ss.xx ] format.
