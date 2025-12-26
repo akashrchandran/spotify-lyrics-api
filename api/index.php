@@ -36,11 +36,12 @@ function make_response($spotify, $response, $format)
         http_response_code(404);
         return json_encode(['error' => true, 'message' => 'lyrics for this track is not available on spotify!']);
     }
-    $lines = $format == 'lrc' ? $spotify->getLrcLyrics($json_res['lyrics']['lines']) : $json_res['lyrics']['lines'];
     if ($format == 'lrc') {
         $lines = $spotify->getLrcLyrics($json_res['lyrics']['lines']);
     } elseif ($format == 'srt') {
         $lines = $spotify->getSrtLyrics($json_res['lyrics']['lines']);
+    } elseif ($format == 'raw') {
+        $lines = $spotify->getRawLyrics($json_res['lyrics']['lines']);
     } else {
         $lines =  $json_res['lyrics']['lines'];
     }
