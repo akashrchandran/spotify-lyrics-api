@@ -1,0 +1,15 @@
+# Ignore unnecessary files for Docker build
+.git
+.gitignore
+*.md
+README.md
+docs/
+LICENSE
+FUNDING.yml
+Procfile
+vercel.json
+app.json
+composer.json
+composer.lock
+Dockerfile
+.dockerignore
