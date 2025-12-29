@@ -113,8 +113,6 @@ class Spotify
             return $params;
         } catch (Exception $e) {
             throw new SpotifyException($e->getMessage());
-        } finally {
-            curl_close($ch);
         }
     }
 
@@ -160,8 +158,6 @@ class Spotify
             fclose($token_file);
         } catch (Exception $e) {
             throw new SpotifyException($e->getMessage());
-        } finally {
-            curl_close($ch);
         }
     }
 
@@ -183,11 +179,13 @@ class Spotify
     }
 
     /**
-     * Retrieves the lyrics of a track from the Spotify.
+     * Retrieves the lyrics of a track from Spotify.
+     * 
      * @param string $track_id The Spotify track id.
-     * @return string The lyrics of the track in JSON format.
+     * @return array The parsed lyrics data from Spotify.
+     * @throws SpotifyException If there is an error fetching the lyrics.
      */
-    function getLyrics($track_id): string
+    function getLyrics($track_id): array
     {
         $json = file_get_contents($this->cache_file);
         $token = json_decode($json, true)['accessToken'];
@@ -201,8 +199,24 @@ class Spotify
         ));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_URL, $formated_url);
-        $result = curl_exec($ch);
-        return $result;
+        $response = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        $http_code = $info['http_code'];
+        if ($http_code === 429) {
+            // spotify doesn't provide retry-after in headers.
+            throw new SpotifyException('Rate limited by Spotify. Please try again later.', $http_code);
+        } else if ($http_code === 404) {
+            throw new SpotifyException('Lyrics for this track were not found on Spotify.', $http_code);
+        } else if ($http_code >= 400) {
+            throw new SpotifyException("Spotify API error (HTTP $http_code)", $http_code);
+        }
+
+        $json_res = json_decode($response, true);
+        if ($json_res === null || !isset($json_res['lyrics'])) {
+            throw new SpotifyException('Spotify returned an invalid response.');
+        }
+
+        return $json_res;
     }
 
     /**
