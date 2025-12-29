@@ -113,8 +113,6 @@ class Spotify
             return $params;
         } catch (Exception $e) {
             throw new SpotifyException($e->getMessage());
-        } finally {
-            curl_close($ch);
         }
     }
 
@@ -160,8 +158,6 @@ class Spotify
             fclose($token_file);
         } catch (Exception $e) {
             throw new SpotifyException($e->getMessage());
-        } finally {
-            curl_close($ch);
         }
     }
 
