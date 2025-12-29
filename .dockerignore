@@ -9,7 +9,7 @@ FUNDING.yml
 Procfile
 vercel.json
 app.json
-composer.json
-composer.lock
+vendor/
 Dockerfile
 .dockerignore
+.github/

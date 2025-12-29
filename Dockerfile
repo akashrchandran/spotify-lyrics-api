@@ -6,6 +6,9 @@ RUN apk add --no-cache \
     curl \
     && docker-php-ext-install opcache
 
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 # Configure opcache for production
 RUN { \
     echo 'opcache.memory_consumption=64'; \
@@ -19,10 +22,15 @@ RUN { \
 # Set working directory
 WORKDIR /app
 
-# Copy only necessary files
+# Copy composer files first (for better caching)
+COPY composer.json composer.lock* ./
+
+# Install dependencies (no dev, optimized autoloader)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+# Copy source files
 COPY api/ ./api/
 COPY src/ ./src/
-COPY vendor/ ./vendor/
 
 # Expose port
 EXPOSE 8080
