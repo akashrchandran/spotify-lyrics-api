@@ -42,16 +42,18 @@ try {
 
 function make_response($spotify, $lyricsData, $format)
 {
-    $json_res = $lyricsData;
-    if ($format == 'lrc') {
-        $lines = $spotify->getLrcLyrics($json_res['lyrics']['lines']);
-    } elseif ($format == 'srt') {
-        $lines = $spotify->getSrtLyrics($json_res['lyrics']['lines']);
-    } elseif ($format == 'raw') {
-        $lines = $spotify->getRawLyrics($json_res['lyrics']['lines']);
-    } else {
-        $lines =  $json_res['lyrics']['lines'];
-    }
-    $response = ['error' => false, 'syncType' => $json_res['lyrics']['syncType'], 'lines' => $lines];
-    return json_encode($response);
+    $lyricsLines = $lyricsData['lyrics']['lines'];
+    
+    $lines = match ($format) {
+        'lrc' => $spotify->getLrcLyrics($lyricsLines),
+        'srt' => $spotify->getSrtLyrics($lyricsLines),
+        'raw' => $spotify->getRawLyrics($lyricsLines),
+        default => $lyricsLines,
+    };
+    
+    return json_encode([
+        'error' => false,
+        'syncType' => $lyricsData['lyrics']['syncType'],
+        'lines' => $lines
+    ]);
 }
