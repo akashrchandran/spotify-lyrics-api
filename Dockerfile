@@ -1,9 +1,8 @@
-# Use minimal Alpine-based PHP image with Apache
+# Use minimal Alpine-based PHP image
 FROM php:8.3-alpine
 
 # Install only required extensions and dependencies
-RUN apk add --no-cache \
-    curl \
+RUN apk add --no-cache curl \
     && docker-php-ext-install opcache
 
 # Install Composer
@@ -22,11 +21,16 @@ RUN { \
 # Set working directory
 WORKDIR /app
 
-# Copy composer files first (for better caching)
-COPY composer.json composer.lock* ./
+# Copy composer.json
+COPY composer.json ./
 
 # Install dependencies (no dev, optimized autoloader)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+RUN COMPOSER_PROCESS_TIMEOUT=600 composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-interaction \
+    --no-progress \
+    --prefer-dist
 
 # Copy source files
 COPY api/ ./api/
