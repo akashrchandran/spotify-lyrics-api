@@ -30,6 +30,32 @@ A Rest API for fetching lyrics from Spotify which is powered by Musixmatch. Comm
  
 > [!NOTE]
 > Changed this project into a template repository, deploy your own version. If you need help, don't hesitate to open an issue.
+
+# Quick Start with Docker
+
+The easiest way to run the API is using Docker:
+
+```bash
+docker run -d -p 8080:8080 -e SP_DC=your_sp_dc_cookie akashrchandran/spotify-lyrics-api
+```
+
+Then access the API at `http://localhost:8080/?trackid=YOUR_TRACK_ID`
+
+### Docker Compose
+
+```yaml
+services:
+  spotify-lyrics-api:
+    image: akashrchandran/spotify-lyrics-api:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - SP_DC=your_sp_dc_cookie
+    restart: unless-stopped
+```
+
+> 📦 [View on Docker Hub](https://hub.docker.com/r/akashrchandran/spotify-lyrics-api)
+
  # Install using Composer
 ```
 composer require akashrchandran/spotify-lyrics-api
@@ -185,14 +211,43 @@ error response:
 
 Include the package's autoloader file in your PHP code and call class `Spotify()`.
 
-```PHP
+```php
 <?php
-require('./vendor/autoload.php');
+require './vendor/autoload.php';
 
-$spotify = new SpotifyLyricsApi\Spotify("SP_DC here");
-$spotify->checkTokenExpire();
-$reponse = $spotify -> getLyrics(track_id: "1418IuVKQPTYqt7QNJ9RXN");
-?>
+use SpotifyLyricsApi\Spotify;
+use SpotifyLyricsApi\SpotifyException;
+
+$spotify = new Spotify("SP_DC here");
+
+try {
+    $spotify->checkTokenExpire();
+    $lyrics = $spotify->getLyrics(track_id: "1418IuVKQPTYqt7QNJ9RXN");
+    
+    // $lyrics contains the parsed lyrics data
+    echo "Sync Type: " . $lyrics['lyrics']['syncType'] . "\n";
+    
+    foreach ($lyrics['lyrics']['lines'] as $line) {
+        echo "[" . $line['startTimeMs'] . "] " . $line['words'] . "\n";
+    }
+} catch (SpotifyException $e) {
+    // Handle errors (rate limiting, not found, etc.)
+    echo "Error: " . $e->getMessage() . "\n";
+    echo "Status Code: " . $e->getCode() . "\n";
+}
+```
+
+### Formatting Lyrics
+
+```php
+// Get lyrics in LRC format
+$lrcLines = $spotify->getLrcLyrics($lyrics['lyrics']['lines']);
+
+// Get lyrics in SRT format
+$srtLines = $spotify->getSrtLyrics($lyrics['lyrics']['lines']);
+
+// Get raw lyrics (plain text)
+$rawLines = $spotify->getRawLyrics($lyrics['lyrics']['lines']);
 ```
 
 
